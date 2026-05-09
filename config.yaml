@@ -1,9 +1,7 @@
-# SF Sublet Finder - config
-
 user:
   name: Aarnav
-  phone: "+16508224245"
-  email: "aarnav.p.verma.27@dartmouth.edu"
+  phone: ""
+  email: ""
 
 notification:
   channel: telegram
@@ -39,35 +37,24 @@ state:
   prune_after_days: 90
 
 facebook:
-  enabled: true
-  search_urls:
-    - "https://www.facebook.com/marketplace/sanfrancisco/propertyrentals?minPrice=800&maxPrice=2500"
-    - "https://www.facebook.com/marketplace/sanfrancisco/search?query=sublet"
-    - "https://www.facebook.com/marketplace/sanfrancisco/search?query=summer%20sublet"
-    - "https://www.facebook.com/marketplace/sanfrancisco/search?query=june%20august"
+  enabled: false
+  search_urls: []
   poll_minutes: 30
 
 reply:
   template: |
     [HOOK]
 
-    My name is Aarnav, and I'm a student at Dartmouth who will be in San
-    Francisco this summer for a finance internship. I'm looking for a place
-    from June through August, and I'm very interested in the room.
+    My name is [NAME], and I'm a student at Dartmouth who will be in San Francisco this summer for an internship. I'm looking for a place from June through August, and I'm very interested in the room.
 
-    A bit about me: I'm responsible, clean, and friendly. I keep a consistent
-    routine with work, exercise, and reading, and I take great care of the
-    spaces I live in. I don't smoke or host parties, and I'm respectful of
-    roommates, neighbors, and shared spaces.
+    A bit about me: I'm responsible, clean, and friendly. I keep a consistent routine with work, exercise, and reading, and I take great care of the spaces I live in. I don't smoke or host parties, and I'm respectful of roommates, neighbors, and shared spaces.
 
-    I'd love to set up a time to connect or see the place, either in person
-    or virtually. I'm also happy to share my LinkedIn or any other
-    information that would be helpful.
+    I'd love to set up a time to connect or see the place, either in person or virtually. I'm also happy to share my LinkedIn or any other information that would be helpful.
 
-    You can reach me at 650-822-4245.
+    [CONTACT_LINE]
 
     Looking forward to hearing from you.
 
     Best,
-    Aarnav
+    [NAME]
   fallback_hook: "I saw your listing for the room in SF and it looks like a great fit for what I'm looking for this summer."
