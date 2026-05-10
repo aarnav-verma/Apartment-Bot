@@ -61,13 +61,26 @@ def _personalize_hook(title: str, neighborhood: str | None, body: str) -> str | 
             max_tokens=120,
             messages=[{"role": "user", "content": prompt}],
         )
-        text = "".join(
-            block.text for block in msg.content if getattr(block, "type", None) == "text"
-        )
+        text = "".join(block.text for block in msg.content if getattr(block, "type", None) == "text")
         return _clean_hook(text)
     except Exception as exc:
         log.warning("LLM personalization failed: %s", exc)
         return None
+
+
+def _contact_line(reply_config: dict) -> str:
+    explicit = os.environ.get("APARTMENT_CONTACT_LINE")
+    if explicit:
+        return explicit
+    phone = os.environ.get("APARTMENT_PHONE") or reply_config.get("phone")
+    email = os.environ.get("APARTMENT_EMAIL") or reply_config.get("email")
+    if phone and email:
+        return f"You can reach me at {phone} or {email}."
+    if phone:
+        return f"You can reach me at {phone}."
+    if email:
+        return f"You can reach me at {email}."
+    return "Happy to share any additional information that would be helpful."
 
 
 def build_reply(listing, reply_config: dict) -> str:
@@ -77,7 +90,10 @@ def build_reply(listing, reply_config: dict) -> str:
         body=listing.body,
     ) or reply_config["fallback_hook"]
 
+    name = os.environ.get("APARTMENT_USER_NAME") or reply_config.get("name") or "Aarnav"
     template = reply_config["template"]
+    template = template.replace("[NAME]", name)
+    template = template.replace("[CONTACT_LINE]", _contact_line(reply_config))
     if "[HOOK]" not in template:
         return f"{hook}\n\n{template}".strip()
     return template.replace("[HOOK]", hook).strip()
